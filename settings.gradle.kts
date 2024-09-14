@@ -21,4 +21,12 @@ dependencyResolutionManagement {
 
 rootProject.name = "WatherApplication"
 include(":app")
- 
+include(":feature")
+include(":data")
+include(":di")
+include(":domain")
+include(":navigation")
+include(":feature:splash")
+include(":feature:home")
+include(":feature:favorites")
+include(":feature:forecast")
