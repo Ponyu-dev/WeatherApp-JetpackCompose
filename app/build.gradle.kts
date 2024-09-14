@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ponyu.wather.application"
+    namespace = "com.ponyu.weather.application"
     compileSdk = 34
 
     defaultConfig {

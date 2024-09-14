@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ponyu.wather.feature.mylibrary"
+    namespace = "com.ponyu.weather.feature.favorites"
     compileSdk = 34
 
     defaultConfig {

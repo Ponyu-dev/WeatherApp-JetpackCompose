@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ponyu.wather.feature.splash"
+    namespace = "com.ponyu.weather.feature.splash"
     compileSdk = 34
 
     defaultConfig {

@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ponyu.wather.navigation"
+    namespace = "com.ponyu.weather.navigation"
     compileSdk = 34
 
     defaultConfig {

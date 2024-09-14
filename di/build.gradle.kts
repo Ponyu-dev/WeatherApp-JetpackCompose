@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ponyu.wather.di"
+    namespace = "com.ponyu.weather.di"
     compileSdk = 34
 
     defaultConfig {
