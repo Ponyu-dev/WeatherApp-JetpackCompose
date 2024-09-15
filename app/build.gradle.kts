@@ -42,7 +42,12 @@ android {
 }
 
 dependencies {
+    implementation(projects.core)
+    implementation(projects.domain)
+    implementation(projects.data)
+    implementation(projects.di)
     implementation(projects.navigation)
+
     implementation(projects.feature.splash)
     implementation(projects.feature.home)
     implementation(projects.feature.forecast)
