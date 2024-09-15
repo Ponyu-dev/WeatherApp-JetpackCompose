@@ -33,10 +33,25 @@ android {
 }
 
 dependencies {
+    implementation(projects.domain)
+    implementation(projects.core)
+    implementation(libs.javax.inject)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
+
+    // Retrofit
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.retrofit)
+
+    // Location
+    implementation(libs.gms.play.services.location)
+
+    // Room
+    implementation(libs.room.ktx)
+    implementation(libs.room.runtime)
+    implementation(libs.room.compiler)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

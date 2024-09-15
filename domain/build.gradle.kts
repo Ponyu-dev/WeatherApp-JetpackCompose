@@ -33,8 +33,6 @@ android {
 }
 
 dependencies {
-    implementation(projects.core)
-
     implementation(libs.javax.inject)
 
     implementation(libs.androidx.core.ktx)
