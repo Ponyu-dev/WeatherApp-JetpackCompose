@@ -10,66 +10,73 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 
 private const val DEFAULT_OFFSET_X = 1000
-private const val DEFAULT_DURATION = 800
+private const val DEFAULT_DURATION_SLIDE = 600
+private const val DEFAULT_DURATION_FADE = 1000
 
-fun defaultEnterTransition(
+private fun slideInHorizontallyFadeIn(
+    offset: Int
+) : EnterTransition {
+    return slideInHorizontally(
+        initialOffsetX = { offset },
+        animationSpec = tween(durationMillis = DEFAULT_DURATION_SLIDE, easing = FastOutSlowInEasing)
+    ) + fadeIn(
+        animationSpec = tween(durationMillis = DEFAULT_DURATION_FADE, easing = FastOutSlowInEasing)
+    )
+}
+
+private fun slideOutHorizontallyFadeOut(
+    offset: Int
+) : ExitTransition {
+    return slideOutHorizontally(
+        targetOffsetX = { offset },
+        animationSpec = tween(durationMillis = DEFAULT_DURATION_SLIDE, easing = FastOutSlowInEasing)
+    ) + fadeOut(
+        animationSpec = tween(durationMillis = DEFAULT_DURATION_FADE, easing = FastOutSlowInEasing)
+    )
+}
+
+internal fun getEnterTransition(
+    currentScreen: String,
     targetScreen: String
-): EnterTransition {
-    return when (targetScreen) {
-        BottomNavItem.Home.route -> fadeIn(
-            animationSpec = tween(durationMillis = DEFAULT_DURATION, easing = FastOutSlowInEasing)
-        )
-        BottomNavItem.Favorites.route ->
-            slideInHorizontally(
-                initialOffsetX = { -DEFAULT_OFFSET_X },
-                animationSpec = tween(durationMillis = DEFAULT_DURATION, easing = FastOutSlowInEasing)
-            ) + fadeIn(
-                animationSpec = tween(durationMillis = DEFAULT_DURATION, easing = FastOutSlowInEasing)
-            )
-        BottomNavItem.Forecast.route -> slideInHorizontally(
-                initialOffsetX = { DEFAULT_OFFSET_X },
-                animationSpec = tween(durationMillis = DEFAULT_DURATION, easing = FastOutSlowInEasing)
-            ) + fadeIn(
-                animationSpec = tween(durationMillis = DEFAULT_DURATION, easing = FastOutSlowInEasing)
-            )
-        else -> fadeIn(
-            animationSpec = tween(durationMillis = DEFAULT_DURATION, easing = FastOutSlowInEasing)
-        )
+): EnterTransition =
+    when (currentScreen) {
+        BottomNavItem.Home.route -> when (targetScreen) {
+            BottomNavItem.Favorites.route -> slideInHorizontallyFadeIn(DEFAULT_OFFSET_X)
+            BottomNavItem.Forecast.route -> slideInHorizontallyFadeIn(-DEFAULT_OFFSET_X)
+            else -> fadeIn()
+        }
+        BottomNavItem.Favorites.route -> when (targetScreen) {
+            BottomNavItem.Home.route -> slideInHorizontallyFadeIn(-DEFAULT_OFFSET_X)
+            BottomNavItem.Forecast.route -> slideInHorizontallyFadeIn(-DEFAULT_OFFSET_X)
+            else -> fadeIn()
+        }
+        BottomNavItem.Forecast.route -> when (targetScreen) {
+            BottomNavItem.Home.route -> slideInHorizontallyFadeIn(DEFAULT_OFFSET_X)
+            BottomNavItem.Favorites.route -> slideInHorizontallyFadeIn(DEFAULT_OFFSET_X)
+            else -> fadeIn()
+        }
+        else -> fadeIn()
     }
-}
 
-fun defaultExitTransition(
+internal fun getExitTransition(
+    currentScreen: String,
     targetScreen: String
-): ExitTransition {
-    return when (targetScreen) {
-        BottomNavItem.Home.route -> slideOutHorizontally(
-                targetOffsetX = { -DEFAULT_OFFSET_X },
-                animationSpec = tween(durationMillis = DEFAULT_DURATION, easing = FastOutSlowInEasing)
-            ) + fadeOut(
-                animationSpec = tween(durationMillis = DEFAULT_DURATION, easing = FastOutSlowInEasing)
-        )
-        BottomNavItem.Favorites.route -> slideOutHorizontally(
-                targetOffsetX = { -DEFAULT_OFFSET_X },
-                animationSpec = tween(durationMillis = DEFAULT_DURATION, easing = FastOutSlowInEasing)
-            ) + fadeOut(
-                animationSpec = tween(durationMillis = DEFAULT_DURATION, easing = FastOutSlowInEasing)
-        )
-        BottomNavItem.Forecast.route -> slideOutHorizontally(
-            targetOffsetX = { DEFAULT_OFFSET_X },
-            animationSpec = tween(durationMillis = DEFAULT_DURATION, easing = FastOutSlowInEasing)
-        ) + fadeOut(
-            animationSpec = tween(durationMillis = DEFAULT_DURATION, easing = FastOutSlowInEasing)
-        )
-        else -> fadeOut(
-            animationSpec = tween(durationMillis = DEFAULT_DURATION, easing = FastOutSlowInEasing)
-        )
+): ExitTransition =
+    when (currentScreen) {
+        BottomNavItem.Home.route -> when (targetScreen) {
+            BottomNavItem.Favorites.route -> slideOutHorizontallyFadeOut(DEFAULT_OFFSET_X)
+            BottomNavItem.Forecast.route -> slideOutHorizontallyFadeOut(-DEFAULT_OFFSET_X)
+            else -> fadeOut()
+        }
+        BottomNavItem.Favorites.route -> when (targetScreen) {
+            BottomNavItem.Home.route -> slideOutHorizontallyFadeOut(-DEFAULT_OFFSET_X)
+            BottomNavItem.Forecast.route -> slideOutHorizontallyFadeOut(-DEFAULT_OFFSET_X)
+            else -> fadeOut()
+        }
+        BottomNavItem.Forecast.route -> when (targetScreen) {
+            BottomNavItem.Home.route -> slideOutHorizontallyFadeOut(DEFAULT_OFFSET_X)
+            BottomNavItem.Favorites.route -> slideOutHorizontallyFadeOut(DEFAULT_OFFSET_X)
+            else -> fadeOut()
+        }
+        else -> fadeOut()
     }
-}
-
-fun defaultPopEnterTransition(): EnterTransition {
-    return slideInHorizontally() + fadeIn()
-}
-
-fun defaultPopExitTransition(): ExitTransition {
-    return slideOutHorizontally() + fadeOut()
-}

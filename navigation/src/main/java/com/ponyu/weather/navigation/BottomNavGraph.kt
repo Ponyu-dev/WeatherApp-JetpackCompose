@@ -1,9 +1,5 @@
 package com.ponyu.weather.navigation
 
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -23,7 +19,6 @@ sealed class BottomNavItem(val title: String, val icon: ImageVector, val route: 
     data object Forecast : BottomNavItem("Forecast", Icons.Default.Info, "forecast_tab")
 }
 
-
 @Composable
 fun BottomNavGraph(navController: NavHostController) {
     NavHost(
@@ -32,30 +27,30 @@ fun BottomNavGraph(navController: NavHostController) {
     ) {
         composable(
             BottomNavItem.Home.route,
-            enterTransition = { defaultEnterTransition(BottomNavItem.Home.route) },
-            exitTransition = { defaultExitTransition(BottomNavItem.Home.route) },
-            popEnterTransition = { defaultPopEnterTransition() },
-            popExitTransition = { defaultPopExitTransition() },
+            enterTransition = { getEnterTransition(BottomNavItem.Home.route, initialState.destination.route ?: BottomNavItem.Home.route, ) },
+            exitTransition = { getExitTransition(BottomNavItem.Home.route, targetState.destination.route ?: BottomNavItem.Home.route) },
+            popEnterTransition = { getEnterTransition(BottomNavItem.Home.route, initialState.destination.route ?: BottomNavItem.Home.route, ) },
+            popExitTransition = { getExitTransition(BottomNavItem.Home.route, targetState.destination.route ?: BottomNavItem.Home.route) },
         ) {
             HomeRoute()
         }
 
         composable(
             BottomNavItem.Favorites.route,
-            enterTransition = { defaultEnterTransition(BottomNavItem.Favorites.route) },
-            exitTransition = { defaultExitTransition(BottomNavItem.Favorites.route) },
-            popEnterTransition = { defaultPopEnterTransition() },
-            popExitTransition = { defaultPopExitTransition() },
+            enterTransition = { getEnterTransition(BottomNavItem.Favorites.route, initialState.destination.route ?: BottomNavItem.Favorites.route) },
+            exitTransition = { getExitTransition(BottomNavItem.Favorites.route, targetState.destination.route ?: BottomNavItem.Favorites.route) },
+            popEnterTransition = { getEnterTransition(BottomNavItem.Favorites.route, initialState.destination.route ?: BottomNavItem.Favorites.route) },
+            popExitTransition = { getExitTransition(BottomNavItem.Favorites.route, targetState.destination.route ?: BottomNavItem.Favorites.route) },
         ) {
             FavoritesRoute()
         }
 
         composable(
             BottomNavItem.Forecast.route,
-            enterTransition = { defaultEnterTransition(BottomNavItem.Forecast.route) },
-            exitTransition = { defaultExitTransition(BottomNavItem.Forecast.route) },
-            popEnterTransition = { defaultPopEnterTransition() },
-            popExitTransition = { defaultPopExitTransition() },
+            enterTransition = { getEnterTransition(BottomNavItem.Forecast.route, initialState.destination.route ?: BottomNavItem.Forecast.route) },
+            exitTransition = { getExitTransition(BottomNavItem.Forecast.route,  targetState.destination.route ?: BottomNavItem.Forecast.route) },
+            popEnterTransition = { getEnterTransition(BottomNavItem.Forecast.route, initialState.destination.route ?: BottomNavItem.Forecast.route) },
+            popExitTransition = { getExitTransition(BottomNavItem.Forecast.route,  targetState.destination.route ?: BottomNavItem.Forecast.route) },
         ) {
             ForecastRoute()
         }
