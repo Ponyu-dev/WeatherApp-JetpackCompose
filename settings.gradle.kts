@@ -22,6 +22,7 @@ dependencyResolutionManagement {
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "WeatherApplication"
 include(":app")
+include(":core")
 include(":data")
 include(":di")
 include(":domain")
@@ -30,4 +31,3 @@ include(":feature:splash")
 include(":feature:home")
 include(":feature:favorites")
 include(":feature:forecast")
-include(":core")

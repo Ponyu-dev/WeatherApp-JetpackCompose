@@ -63,8 +63,21 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
+    //Hilt
     implementation(libs.hilt.android)
-    implementation(libs.hilt.compiler)
+    kapt(libs.hilt.compiler)
+
+    // Retrofit
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.retrofit)
+
+    // Location
+    implementation(libs.gms.play.services.location)
+
+    // Room
+    implementation(libs.room.ktx)
+    implementation(libs.room.runtime)
+    kapt(libs.room.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
