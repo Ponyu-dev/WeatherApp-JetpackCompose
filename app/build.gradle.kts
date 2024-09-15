@@ -40,11 +40,17 @@ android {
 }
 
 dependencies {
+    implementation(projects.navigation)
+    implementation(projects.feature.splash)
+    implementation(projects.feature.home)
+    implementation(projects.feature.forecast)
+    implementation(projects.feature.favorites)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.navigation)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
