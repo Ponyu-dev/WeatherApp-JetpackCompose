@@ -11,17 +11,16 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.ponyu.weather.application.ui.theme.WatherApplicationTheme
 import com.ponyu.weather.navigation.AppNavHost
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             WatherApplicationTheme {
-                // Навигационный контроллер
                 val navController = rememberNavController()
-
-                // Корневой контейнер
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
