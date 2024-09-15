@@ -27,9 +27,9 @@ fun BottomNavGraph(navController: NavHostController) {
     ) {
         composable(
             BottomNavItem.Home.route,
-            enterTransition = { getEnterTransition(BottomNavItem.Home.route, initialState.destination.route ?: BottomNavItem.Home.route, ) },
+            enterTransition = { getEnterTransition(BottomNavItem.Home.route, initialState.destination.route ?: BottomNavItem.Home.route) },
             exitTransition = { getExitTransition(BottomNavItem.Home.route, targetState.destination.route ?: BottomNavItem.Home.route) },
-            popEnterTransition = { getEnterTransition(BottomNavItem.Home.route, initialState.destination.route ?: BottomNavItem.Home.route, ) },
+            popEnterTransition = { getEnterTransition(BottomNavItem.Home.route, initialState.destination.route ?: BottomNavItem.Home.route) },
             popExitTransition = { getExitTransition(BottomNavItem.Home.route, targetState.destination.route ?: BottomNavItem.Home.route) },
         ) {
             HomeRoute()

@@ -37,46 +37,36 @@ private fun slideOutHorizontallyFadeOut(
 
 internal fun getEnterTransition(
     currentScreen: String,
-    targetScreen: String
-): EnterTransition =
-    when (currentScreen) {
-        BottomNavItem.Home.route -> when (targetScreen) {
-            BottomNavItem.Favorites.route -> slideInHorizontallyFadeIn(DEFAULT_OFFSET_X)
-            BottomNavItem.Forecast.route -> slideInHorizontallyFadeIn(-DEFAULT_OFFSET_X)
-            else -> fadeIn()
-        }
-        BottomNavItem.Favorites.route -> when (targetScreen) {
-            BottomNavItem.Home.route -> slideInHorizontallyFadeIn(-DEFAULT_OFFSET_X)
-            BottomNavItem.Forecast.route -> slideInHorizontallyFadeIn(-DEFAULT_OFFSET_X)
-            else -> fadeIn()
-        }
-        BottomNavItem.Forecast.route -> when (targetScreen) {
-            BottomNavItem.Home.route -> slideInHorizontallyFadeIn(DEFAULT_OFFSET_X)
-            BottomNavItem.Favorites.route -> slideInHorizontallyFadeIn(DEFAULT_OFFSET_X)
-            else -> fadeIn()
-        }
+    targetScreen: String,
+): EnterTransition {
+    return when {
+        currentScreen == BottomNavItem.Home.route && targetScreen == BottomNavItem.Favorites.route -> slideInHorizontallyFadeIn(DEFAULT_OFFSET_X)
+        currentScreen == BottomNavItem.Home.route && targetScreen == BottomNavItem.Forecast.route -> slideInHorizontallyFadeIn(-DEFAULT_OFFSET_X)
+
+        currentScreen == BottomNavItem.Favorites.route && targetScreen == BottomNavItem.Home.route -> slideInHorizontallyFadeIn(-DEFAULT_OFFSET_X)
+        currentScreen == BottomNavItem.Favorites.route && targetScreen == BottomNavItem.Forecast.route -> slideInHorizontallyFadeIn(-DEFAULT_OFFSET_X)
+
+        currentScreen == BottomNavItem.Forecast.route && targetScreen == BottomNavItem.Home.route -> slideInHorizontallyFadeIn(DEFAULT_OFFSET_X)
+        currentScreen == BottomNavItem.Forecast.route && targetScreen == BottomNavItem.Favorites.route -> slideInHorizontallyFadeIn(DEFAULT_OFFSET_X)
+
         else -> fadeIn()
     }
+}
 
 internal fun getExitTransition(
     currentScreen: String,
     targetScreen: String
-): ExitTransition =
-    when (currentScreen) {
-        BottomNavItem.Home.route -> when (targetScreen) {
-            BottomNavItem.Favorites.route -> slideOutHorizontallyFadeOut(DEFAULT_OFFSET_X)
-            BottomNavItem.Forecast.route -> slideOutHorizontallyFadeOut(-DEFAULT_OFFSET_X)
-            else -> fadeOut()
-        }
-        BottomNavItem.Favorites.route -> when (targetScreen) {
-            BottomNavItem.Home.route -> slideOutHorizontallyFadeOut(-DEFAULT_OFFSET_X)
-            BottomNavItem.Forecast.route -> slideOutHorizontallyFadeOut(-DEFAULT_OFFSET_X)
-            else -> fadeOut()
-        }
-        BottomNavItem.Forecast.route -> when (targetScreen) {
-            BottomNavItem.Home.route -> slideOutHorizontallyFadeOut(DEFAULT_OFFSET_X)
-            BottomNavItem.Favorites.route -> slideOutHorizontallyFadeOut(DEFAULT_OFFSET_X)
-            else -> fadeOut()
-        }
+): ExitTransition {
+    return when {
+        currentScreen == BottomNavItem.Home.route && targetScreen == BottomNavItem.Favorites.route -> slideOutHorizontallyFadeOut(DEFAULT_OFFSET_X)
+        currentScreen == BottomNavItem.Home.route && targetScreen == BottomNavItem.Forecast.route -> slideOutHorizontallyFadeOut(-DEFAULT_OFFSET_X)
+
+        currentScreen == BottomNavItem.Favorites.route && targetScreen == BottomNavItem.Home.route -> slideOutHorizontallyFadeOut(-DEFAULT_OFFSET_X)
+        currentScreen == BottomNavItem.Favorites.route && targetScreen == BottomNavItem.Forecast.route -> slideOutHorizontallyFadeOut(-DEFAULT_OFFSET_X)
+
+        currentScreen == BottomNavItem.Forecast.route && targetScreen == BottomNavItem.Home.route -> slideOutHorizontallyFadeOut(DEFAULT_OFFSET_X)
+        currentScreen == BottomNavItem.Forecast.route && targetScreen == BottomNavItem.Favorites.route -> slideOutHorizontallyFadeOut(DEFAULT_OFFSET_X)
+
         else -> fadeOut()
     }
+}
