@@ -37,6 +37,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.designsystem)
     implementation(projects.feature.splash)
     implementation(projects.feature.home)
     implementation(projects.feature.forecast)
