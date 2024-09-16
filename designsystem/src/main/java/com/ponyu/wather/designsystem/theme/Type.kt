@@ -1,4 +1,4 @@
-package com.ponyu.weather.application.ui.theme
+package com.ponyu.wather.designsystem.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

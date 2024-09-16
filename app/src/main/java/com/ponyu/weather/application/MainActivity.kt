@@ -9,7 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.ponyu.weather.application.ui.theme.WatherApplicationTheme
+import com.ponyu.wather.designsystem.theme.WatherApplicationTheme
 import com.ponyu.weather.navigation.AppNavHost
 import dagger.hilt.android.AndroidEntryPoint
 
