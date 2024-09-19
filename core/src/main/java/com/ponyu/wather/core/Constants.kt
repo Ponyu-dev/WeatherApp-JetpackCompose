@@ -57,7 +57,7 @@ object AppStrings {
     const val wind = "🌬 WIND"
     const val metric = "KM"
     const val pressure = "⏲ PRESSURE"
-    const val degree = "°"
+//    const val degree = "°"
 
     // SearchCityScreen
     const val topbar_title = "Weather"

@@ -1,8 +1,8 @@
 package com.ponyu.weather.navigation
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -28,7 +28,7 @@ internal fun BottomScreen() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .consumeWindowInsets(padding)
+                .padding(padding)
         ) {
             BottomNavGraph(navController = navController)
         }

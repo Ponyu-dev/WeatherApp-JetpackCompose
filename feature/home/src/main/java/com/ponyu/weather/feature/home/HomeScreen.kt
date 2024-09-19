@@ -6,11 +6,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.CircularProgressIndicator
@@ -25,12 +27,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ponyu.wather.core.AppStrings
+import com.ponyu.wather.designsystem.R
 import com.ponyu.wather.domain.model.Forecast
 import com.ponyu.wather.designsystem.component.ErrorCard
+import com.ponyu.wather.designsystem.component.WeatherComponent
 import com.ponyu.wather.designsystem.component.WeatherType
 
 @Composable
@@ -103,7 +107,7 @@ private fun WeatherDataToday(
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.primaryContainer)
             .padding(10.dp),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
@@ -121,17 +125,6 @@ private fun WeatherDataToday(
             Text(
                 todayWeather.cityDtoData.cityName,
                 style = MaterialTheme.typography.titleMedium
-            )
-        }
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 15.dp, end = 15.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                todayWeather.weatherList[0].date,
             )
         }
 
@@ -154,13 +147,57 @@ private fun WeatherDataToday(
             )
             Text(
                 text = todayWeather.weatherList[0].weatherStatus[0].description,
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.displaySmall,
                 textAlign = TextAlign.Center
             )
+
+            Spacer(modifier = Modifier.size(12.dp))
+
             Text(
-                text = "${todayWeather.weatherList[0].weatherData.temp.toInt()}${AppStrings.degree}",
+                text = stringResource(com.ponyu.weather.core.R.string.degree, todayWeather.weatherList[0].weatherData.temp.toInt()),
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.size(6.dp))
+
+            Text(
+                text = stringResource(com.ponyu.weather.core.R.string.feels_like, todayWeather.weatherList[0].weatherData.feelsLike.toInt()),
+                style = MaterialTheme.typography.titleSmall,
+                textAlign = TextAlign.Center
+            )
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(start = 15.dp, end = 15.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            WeatherComponent(
+                modifier = Modifier
+                    .weight(1f),
+                idImage =  R.drawable.pressure,
+                contentDescriptionImage = "PressureIcon",
+                text = stringResource(com.ponyu.weather.core.R.string.pressure, todayWeather.weatherList[0].weatherData.pressure.toInt())
+            )
+
+            WeatherComponent(
+                modifier = Modifier
+                    .weight(1f),
+                idImage =  R.drawable.wind,
+                contentDescriptionImage = "WindIcon",
+                text = stringResource(com.ponyu.weather.core.R.string.wind_speed, todayWeather.weatherList[0].wind.speed.toInt())
+            )
+
+            WeatherComponent(
+                modifier = Modifier
+                    .weight(1f),
+                idImage =  R.drawable.humidity,
+                contentDescriptionImage = "HumidityIcon",
+                text = stringResource(com.ponyu.weather.core.R.string.wind_speed, todayWeather.weatherList[0].weatherData.humidity.toInt())
             )
         }
     }

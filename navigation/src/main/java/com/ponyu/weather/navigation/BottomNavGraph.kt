@@ -5,6 +5,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -20,7 +21,9 @@ internal sealed class BottomNavItem(val title: String, val icon: ImageVector, va
 }
 
 @Composable
-internal fun BottomNavGraph(navController: NavHostController) {
+internal fun BottomNavGraph(
+    navController: NavHostController
+) {
     NavHost(
         navController = navController,
         startDestination = BottomNavItem.Home.route
