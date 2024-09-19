@@ -49,7 +49,7 @@ internal fun SplashScreen(
         contentAlignment = Alignment.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.sunny),
+            painter = painterResource(id = R.drawable.clear_sky_day),
             contentDescription = "Splash Weather"
         )
     }

@@ -8,15 +8,16 @@ import android.location.Location
 import android.location.LocationManager
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.ponyu.wather.core.ExceptionTitles
 import com.ponyu.wather.domain.interfaces.LocationTracker
+import com.ponyu.wather.domain.use_cases.string_exctenstions.ExceptionStringRepository
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resume
 
 class DefaultLocationTracker @Inject constructor(
     private val locationClient: FusedLocationProviderClient,
-    private val application: Application
+    private val exceptionStringRepository: ExceptionStringRepository,
+    private val application: Application,
 ) : LocationTracker {
 
     override suspend fun getCurrentLocation(): Location? {
@@ -38,9 +39,9 @@ class DefaultLocationTracker @Inject constructor(
             )
 
         if (!hasAccessCoarseLocationPermission || !hasAccessFineLocationPermission) {
-            throw Exception(ExceptionTitles.NO_PERMISSION)
+            throw Exception(exceptionStringRepository.titleNoPermission())
         } else if (!isGpsEnabled) {
-            throw Exception(ExceptionTitles.GPS_DISABLED)
+            throw Exception(exceptionStringRepository.titleGpsDisabled())
         }
 
         return suspendCancellableCoroutine { cont ->

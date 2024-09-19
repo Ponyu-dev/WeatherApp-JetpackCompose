@@ -1,8 +1,11 @@
 package com.ponyu.wather.core
 
+//TODO Переместить все эти константы по нужным местам.
+// Текст в текстовые ресурсы.
+// API_KEY получать из local.properties
 object NetworkService {
     const val BASE_URL: String = "https://api.openweathermap.org"
-    const val API_KEY: String = "YOUR API KEY"
+    const val API_KEY: String = "162aeb696b8f9e04f02a40c6959493ea"
     const val UNITS: String = "metric"
     const val FORECAST_END_POINT = "/data/2.5/forecast"
 }
@@ -20,12 +23,12 @@ object Constants {
     const val UNKNOWN_HOST = "Unable to resolve host \"api.openweathermap.org\": No address associated with hostname"
 }
 
-object ExceptionTitles {
+/*object ExceptionTitles {
     const val GPS_DISABLED = "GPS Disabled"
     const val NO_PERMISSION = "No Permission"
     const val NO_INTERNET_CONNECTION = "No Internet Connection"
     const val UNKNOWN_ERROR = "Unknown Error"
-}
+}*/
 
 object ExceptionDescriptions {
     const val GPS_DISABLED_DESCR = "Your GPS seems to be disabled, please enable it."
@@ -71,6 +74,7 @@ object AppStrings {
     const val error_title = "OOOOPS!!!"
 }
 
+/*
 object WeatherConditions {
     const val CLEAR_SKY = "clear sky"
     const val FEW_CLOUDS = "few clouds"
@@ -89,4 +93,4 @@ object MainWeatherConditions {
     const val RAIN = "Rain"
     const val THUNDERSTORM = "Thunderstorm"
     const val CLEAR = "Clear"
-}
+}*/

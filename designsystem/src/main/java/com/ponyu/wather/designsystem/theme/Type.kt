@@ -12,35 +12,30 @@ val AppTypography = Typography(
     titleLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Light,
-        color = Color.White,
         fontSize = 96.sp,
         letterSpacing = 0.sp,
     ),
     titleMedium = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
-        color = Color.White,
         fontSize = 36.sp,
         letterSpacing = 0.sp
     ),
     titleSmall = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.SemiBold,
-        color = Color.White,
         fontSize = 20.sp,
         letterSpacing = 0.sp
     ),
     bodyMedium = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.SemiBold,
-        color = Color.White,
         fontSize = 20.sp,
         letterSpacing = 0.sp
     ),
     labelMedium = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.SemiBold,
-        color = Color.White,
         fontSize = 18.sp,
         letterSpacing = 0.sp,
     ),

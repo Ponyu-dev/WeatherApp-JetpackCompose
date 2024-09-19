@@ -5,8 +5,7 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun HomeRoute(
-    modifier: Modifier = Modifier,
-    dialogErrorShow: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    HomeScreen(dialogErrorShow = dialogErrorShow)
+    HomeScreen()
 }

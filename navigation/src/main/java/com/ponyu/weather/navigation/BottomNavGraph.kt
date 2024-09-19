@@ -1,28 +1,17 @@
 package com.ponyu.weather.navigation
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.dialog
-import com.ponyu.wather.designsystem.component.ErrorCard
 import com.ponyu.weather.feature.favorites.FavoritesRoute
 import com.ponyu.weather.feature.forecast.ForecastRoute
 import com.ponyu.weather.feature.home.HomeRoute
-
-private const val ERROR = "error"
 
 internal sealed class BottomNavItem(val title: String, val icon: ImageVector, val route: String) {
     data object Home : BottomNavItem("Home", Icons.Default.Home, "home_tab")
@@ -43,9 +32,7 @@ internal fun BottomNavGraph(navController: NavHostController) {
             popEnterTransition = { getEnterTransition(BottomNavItem.Home.route, initialState.destination.route ?: BottomNavItem.Home.route) },
             popExitTransition = { getExitTransition(BottomNavItem.Home.route, targetState.destination.route ?: BottomNavItem.Home.route) },
         ) {
-            HomeRoute {
-                navController.navigate(ERROR)
-            }
+            HomeRoute()
         }
 
         composable(
@@ -66,22 +53,6 @@ internal fun BottomNavGraph(navController: NavHostController) {
             popExitTransition = { getExitTransition(BottomNavItem.Forecast.route,  targetState.destination.route ?: BottomNavItem.Forecast.route) },
         ) {
             ForecastRoute()
-        }
-
-        dialog(ERROR){
-            ErrorCard(
-                modifier = Modifier.fillMaxSize(),
-                errorTitle = "Error Title",
-                errorDescription = "Error Description",
-                errorButtonText =  "Retry",
-                onClick = {
-                    navController.popBackStack()
-                },
-                cardModifier = Modifier
-                    .fillMaxWidth()
-                    .height(LocalConfiguration.current.screenHeightDp.dp / 4 + 48.dp)
-                    .padding(horizontal = 64.dp),
-            )
         }
     }
 }
