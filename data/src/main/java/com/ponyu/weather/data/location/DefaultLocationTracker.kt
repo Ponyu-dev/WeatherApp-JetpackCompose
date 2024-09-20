@@ -9,7 +9,7 @@ import android.location.LocationManager
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.ponyu.wather.domain.interfaces.LocationTracker
-import com.ponyu.wather.domain.use_cases.string_exctenstions.ExceptionStringRepository
+import com.ponyu.wather.domain.exctenstions.ExceptionStringRepository
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resume

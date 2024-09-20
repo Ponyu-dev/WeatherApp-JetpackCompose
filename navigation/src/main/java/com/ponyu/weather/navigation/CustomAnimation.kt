@@ -11,7 +11,6 @@ import androidx.compose.animation.slideOutHorizontally
 
 private const val DEFAULT_OFFSET_X = 1000
 private const val DEFAULT_DURATION_SLIDE = 600
-private const val DEFAULT_DURATION_FADE = 1000
 
 private fun slideInHorizontallyFadeIn(
     offset: Int
@@ -19,8 +18,6 @@ private fun slideInHorizontallyFadeIn(
     return slideInHorizontally(
         initialOffsetX = { offset },
         animationSpec = tween(durationMillis = DEFAULT_DURATION_SLIDE, easing = FastOutSlowInEasing)
-    ) + fadeIn(
-        animationSpec = tween(durationMillis = DEFAULT_DURATION_FADE, easing = FastOutSlowInEasing)
     )
 }
 
@@ -30,8 +27,6 @@ private fun slideOutHorizontallyFadeOut(
     return slideOutHorizontally(
         targetOffsetX = { offset },
         animationSpec = tween(durationMillis = DEFAULT_DURATION_SLIDE, easing = FastOutSlowInEasing)
-    ) + fadeOut(
-        animationSpec = tween(durationMillis = DEFAULT_DURATION_FADE, easing = FastOutSlowInEasing)
     )
 }
 

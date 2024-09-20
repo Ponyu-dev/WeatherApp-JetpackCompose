@@ -1,7 +1,7 @@
 package com.ponyu.weather.feature.home
 
 import com.ponyu.wather.domain.model.Forecast
-import com.ponyu.wather.domain.use_cases.string_exctenstions.ExceptionMessage
+import com.ponyu.wather.domain.exctenstions.ExceptionMessage
 
 sealed interface HomeForecastState {
     data class Success(val forecast: Forecast?): HomeForecastState

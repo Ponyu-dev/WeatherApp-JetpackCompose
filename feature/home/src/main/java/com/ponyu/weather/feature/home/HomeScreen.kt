@@ -44,11 +44,6 @@ internal fun HomeScreen(
 ) {
     val homeCurrentWeatherState by viewModel.homeForecastState.collectAsState()
 
-    // Используем LaunchedEffect для вызова loadLocation один раз при первой компоновке
-    LaunchedEffect(Unit) {
-        viewModel.loadLocation()
-    }
-
     WeatherSection(
         homeCurrentWeatherState
     ) {
@@ -197,7 +192,7 @@ private fun WeatherDataToday(
                     .weight(1f),
                 idImage =  R.drawable.humidity,
                 contentDescriptionImage = "HumidityIcon",
-                text = stringResource(com.ponyu.weather.core.R.string.wind_speed, todayWeather.weatherList[0].weatherData.humidity.toInt())
+                text = stringResource(com.ponyu.weather.core.R.string.humidity, todayWeather.weatherList[0].weatherData.humidity)
             )
         }
     }

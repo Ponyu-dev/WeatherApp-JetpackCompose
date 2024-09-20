@@ -18,5 +18,11 @@
 
     <string name="pressure">%1$d hPa</string>
     <string name="wind_speed">%1$d m/s"</string>
-    <string name="humidity">%1$d %"</string>
+    <string name="humidity">%1$d a"</string>
+
+    <string name="title_search_city">Search for a city</string>
+    <string name="subtitle1">My Cities</string>
+    <string name="subtitle2">Search Result</string>
+    <string name="no_city">You don\'t have any city</string>
+    <string name="error_title">OOPS!!!</string>
 </resources>

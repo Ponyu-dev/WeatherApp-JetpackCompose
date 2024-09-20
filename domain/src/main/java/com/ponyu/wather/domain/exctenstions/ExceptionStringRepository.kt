@@ -1,4 +1,4 @@
-package com.ponyu.wather.domain.use_cases.string_exctenstions
+package com.ponyu.wather.domain.exctenstions
 
 import android.app.Application
 import com.ponyu.weather.core.R

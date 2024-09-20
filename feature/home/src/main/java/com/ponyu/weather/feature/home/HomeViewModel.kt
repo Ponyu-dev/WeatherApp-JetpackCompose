@@ -7,7 +7,7 @@ import com.ponyu.wather.domain.model.City
 import com.ponyu.wather.domain.model.Forecast
 import com.ponyu.wather.domain.use_cases.forecast.*
 import com.ponyu.wather.domain.use_cases.location.GetLocationUseCase
-import com.ponyu.wather.domain.use_cases.string_exctenstions.ExceptionStringRepository
+import com.ponyu.wather.domain.exctenstions.ExceptionStringRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,6 +30,10 @@ class HomeViewModel @Inject constructor(
 
     private val _homeForecastState = MutableStateFlow<HomeForecastState>(HomeForecastState.Loading)
     val homeForecastState = _homeForecastState.asStateFlow()
+
+    init {
+        loadLocation()
+    }
 
     fun loadLocation() {
         _homeForecastState.value = HomeForecastState.Loading
