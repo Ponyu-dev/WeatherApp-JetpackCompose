@@ -13,6 +13,9 @@
 - **Google Play's Location Library:** A library for retrieving the current location of the device.
 - **Kotlin Coroutines:** A library for asynchronous programming.
 
+## Graph
+<img src="https://github.com/Ponyu-dev/WeatherApp-JetpackCompose/blob/main/graph/dependency-graph.svg" alt="Graph"/>
+
 ## Features
 <table>
   <tr>
