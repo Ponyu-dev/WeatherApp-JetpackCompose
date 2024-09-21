@@ -5,4 +5,5 @@ plugins {
     alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.module.graph) apply true // Plugin applied to allow module graph generation
 }

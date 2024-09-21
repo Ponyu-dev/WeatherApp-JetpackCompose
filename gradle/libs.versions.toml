@@ -19,6 +19,7 @@ coroutines = "1.8.0"
 lifecycle = "2.8.5"
 navigation = "2.8.0"
 gms-play-services-location = "21.3.0"
+moduleGraph = "2.5.0"
 
 [libraries]
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
@@ -71,3 +72,4 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+module-graph = { id = "com.jraska.module.graph.assertion", version.ref = "moduleGraph" }

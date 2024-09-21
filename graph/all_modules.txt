@@ -1,0 +1,33 @@
+digraph G {
+":app" -> ":designsystem"
+":app" -> ":core"
+":app" -> ":domain"
+":app" -> ":data"
+":app" -> ":di" [color=red style=bold]
+":app" -> ":navigation"
+":app" -> ":feature:splash"
+":app" -> ":feature:home"
+":app" -> ":feature:forecast"
+":app" -> ":feature:favorites"
+":domain" -> ":core" [color=red style=bold]
+":data" -> ":domain" [color=red style=bold]
+":data" -> ":core"
+":di" -> ":core"
+":di" -> ":data" [color=red style=bold]
+":di" -> ":domain"
+":navigation" -> ":designsystem"
+":navigation" -> ":feature:splash"
+":navigation" -> ":feature:home"
+":navigation" -> ":feature:forecast"
+":navigation" -> ":feature:favorites"
+":feature:splash" -> ":designsystem"
+":feature:home" -> ":designsystem"
+":feature:home" -> ":core"
+":feature:home" -> ":domain"
+":feature:forecast" -> ":designsystem"
+":feature:forecast" -> ":core"
+":feature:forecast" -> ":domain"
+":feature:favorites" -> ":designsystem"
+":feature:favorites" -> ":core"
+":feature:favorites" -> ":domain"
+}
