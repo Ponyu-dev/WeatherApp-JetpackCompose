@@ -1,12 +1,14 @@
 package com.ponyu.wather.designsystem.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,7 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.ponyu.wather.designsystem.R
 
 @Composable
@@ -32,21 +33,22 @@ fun CityWeatherCard(
 ) {
     Card(
         modifier = modifier,
-        backgroundColor = MaterialTheme.colors.background,
-        shape = MaterialTheme.shapes.medium
+        shape = MaterialTheme.shapes.medium,
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.tertiary
+        ),
+        elevation = CardDefaults.elevatedCardElevation(
+            defaultElevation = 8.dp
+        )
     ) {
-        WeatherImage(weatherImage)
-        WeatherInfo(degree, latitude, longitude, city, country, description, onClick, isItDb)
-    }
-}
-
-@Composable
-private fun WeatherImage(weatherImage: Int) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.CenterEnd) {
-        Image(
-            modifier = Modifier.size(LocalConfiguration.current.screenWidthDp.dp / 2),
-            painter = painterResource(id = weatherImage),
-            contentDescription = null
+        WeatherInfo(
+            degree,
+            latitude, longitude,
+            city, country,
+            description,
+            weatherImage,
+            onClick,
+            isItDb
         )
     }
 }
@@ -59,25 +61,52 @@ private fun WeatherInfo(
     city: String,
     country: String,
     description: String,
+    weatherImage: Int,
     onClick: () -> Unit = {},
     isItDb: Boolean = false
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        DegreeAndButtonSection(degree, isItDb, onClick)
-        LocationAndDescription(latitude, longitude, city, country, description)
+    Box {
+        WeatherImage(weatherImage)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            DegreeAndButtonSection(degree, isItDb, onClick)
+            LocationAndDescription(latitude, longitude, city, country, description)
+        }
     }
 }
 
 @Composable
-private fun DegreeAndButtonSection(degree: String, isItDb: Boolean, onClick: () -> Unit) {
+private fun WeatherImage(weatherImage: Int) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        contentAlignment = Alignment.CenterEnd
+    ) {
+        Image(
+            modifier = Modifier.size(LocalConfiguration.current.screenWidthDp.dp / 4),
+            painter = painterResource(id = weatherImage),
+            contentDescription = ""
+        )
+    }
+}
+
+@Composable
+private fun DegreeAndButtonSection(
+    degree: String,
+    isItDb: Boolean,
+    onClick: () -> Unit
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            modifier = Modifier.padding(start = 16.dp),
+            modifier = Modifier.padding(16.dp),
             text = degree,
-            fontSize = 76.sp
+            style = MaterialTheme.typography.displayLarge
         )
         ActionButton(
             onClick = onClick,
@@ -102,10 +131,20 @@ private fun LocationAndDescription(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column(modifier = Modifier.padding(start = 16.dp)) {
-            Text(text = "H: $latitude  L: $longitude")
-            Text(text = "$city, $country")
+            Text(
+                text = "$city, $country",
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = "H: $latitude  L: $longitude",
+                style = MaterialTheme.typography.bodySmall
+            )
         }
-        Text(modifier = Modifier.padding(end = 16.dp), text = description)
+        Text(
+            modifier = Modifier.padding(end = 16.dp),
+            text = description,
+            style = MaterialTheme.typography.bodyMedium
+        )
     }
 }
 

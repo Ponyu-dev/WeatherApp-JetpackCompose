@@ -25,7 +25,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
     private val getForecastWithCityName: GetForecastWithCityNameUseCase,
@@ -59,10 +58,8 @@ class FavoritesViewModel @Inject constructor(
 
     fun searchCityClick() {
         isCitySearched = true
-        Log.e("FavoritesViewModel", "searchCityClick")
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                Log.e("FavoritesViewModel", "${checkSearchFieldValue()}")
                 if (checkSearchFieldValue()) {
                     fetchForecastWithCityName(searchFieldValue)
                 } else {
@@ -89,14 +86,11 @@ class FavoritesViewModel @Inject constructor(
     }
 
     private suspend fun fetchForecastWithCityName(cityName: String) {
-        Log.e("FavoritesViewModel", "fetchForecastWithCityName $searchFieldValue")
         when (val result = getForecastWithCityName.getForecast(cityName)) {
             is Response.Success -> {
-                Log.e("FavoritesViewModel", "fetchForecastWithCityName Response.Success")
                 _searchCityState.value = SearchCityState.Success(result.data)
             }
             is Response.Error -> {
-                Log.e("FavoritesViewModel", "fetchForecastWithCityName Response.Error")
                 _searchCityState.value = SearchCityState.Error(exceptionStringRepository.exceptionMessage(result.message))
             }
         }
@@ -186,159 +180,3 @@ class FavoritesViewModel @Inject constructor(
         return getMyCityUseCase.getMyCity().isNotEmpty()
     }
 }
-
-/*
-
-@HiltViewModel
-class FavoritesViewModel @Inject constructor(
-    private val getForecastWithCityName: GetForecastWithCityNameUseCase,
-    private val getMyCityUseCase: GetMyCityUseCase,
-    private val addMyCityUseCase: AddMyCityUseCase,
-    private val deleteMyCityUseCase: DeleteMyCityUseCase,
-    private val updateMyCityUseCase: UpdateMyCityUseCase,
-    private val getSpecificCityUseCase: GetSpecificCityUseCase,
-    private val exceptionStringRepository: ExceptionStringRepository
-) : ViewModel() {
-
-    private val _searchCityState = MutableStateFlow<SearchCityState>(SearchCityState.Loading)
-    val searchCityState = _searchCityState.asStateFlow()
-
-    private val _myCitiesState = MutableStateFlow<MyCitiesState>(MyCitiesState.Loading)
-    val myCitiesState = _myCitiesState.asStateFlow()
-
-    var searchFieldValue by mutableStateOf("")
-        private set
-
-    var isCitySearched by mutableStateOf(false)
-        private set
-
-    init {
-        loadMyCities()
-    }
-
-    fun errorOnClick() {
-        _searchCityState.value = SearchCityState.Success(null)
-    }
-
-    fun searchCityClick() {
-        isCitySearched = true
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                if (checkSearchFieldValue()) {
-                    val cityName = searchFieldValue
-                    val response = getForecastWithCityName.getForecast(cityName)
-                    handleResponse(response,
-                        onSuccess = { forecast ->
-                            _searchCityState.value = SearchCityState.Success(forecast)
-                        },
-                        onError = { errorMessage ->
-                            _searchCityState.value = SearchCityState.Error(exceptionStringRepository.exceptionMessage(errorMessage))
-                        }
-                    )
-                } else {
-                    _searchCityState.value = SearchCityState.Error(exceptionStringRepository.exceptionMessage(Constants.FILL_FIELD))
-                }
-            } catch (e: Exception) {
-                _searchCityState.value = SearchCityState.Error(exceptionStringRepository.exceptionMessage(e.message))
-            }
-        }
-    }
-
-    private fun loadMyCities() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                if (isMyCitiesExist()) {
-                    updateMyCities()
-                } else {
-                    _myCitiesState.value = MyCitiesState.Success(emptyList())
-                }
-            } catch (e: Exception) {
-                _myCitiesState.value = MyCitiesState.Error(exceptionStringRepository.exceptionMessage(e.message))
-            }
-        }
-    }
-
-    fun addMyCity(myCity: MyCity) {
-        viewModelScope.launch(Dispatchers.IO) {
-            if (!getSpecificCityUseCase.getSpecificCityUseCase(myCity.cityName)) {
-                addMyCityUseCase.addMyCity(myCity)
-                loadMyCities()
-            } else {
-                Log.e("add city", "City already added")
-            }
-        }
-    }
-
-    fun removeMyCity(cityName: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            deleteMyCityUseCase.deleteMyCityUseCase(cityName)
-            loadMyCities()
-        }
-    }
-
-    private suspend fun updateMyCities() {
-        getMyCityUseCase.getMyCity().forEach { myCity ->
-            val response = getForecastWithCityName.getForecast(myCity.cityName)
-            handleResponse(response,
-                onSuccess = { forecast ->
-                    viewModelScope.launch(Dispatchers.IO) {
-                        updateMyCityUseCase.updateMyCityUseCase(
-                            MyCity(
-                                temp = forecast.weatherList[0].weatherData.temp,
-                                latitude = forecast.cityDtoData.coordinate.latitude,
-                                longitude = forecast.cityDtoData.coordinate.longitude,
-                                cityName = forecast.cityDtoData.cityName,
-                                country = forecast.cityDtoData.country,
-                                description = forecast.weatherList[0].weatherStatus[0].description,
-                                weatherImage = WeatherType.getWeatherType(
-                                    mainDescription = forecast.weatherList[0].weatherStatus[0].mainDescription,
-                                    weatherDescription = forecast.weatherList[0].weatherStatus[0].description,
-                                    HourConverter.convertHour(
-                                        forecast.weatherList[0].date.substring(
-                                            11,
-                                            13
-                                        )
-                                    )
-                                )
-                            )
-                        )
-                    }
-                    _myCitiesState.value = MyCitiesState.Success(getMyCityUseCase.getMyCity()) // обновление состояния списка городов
-                },
-                onError = { errorMessage ->
-                    _myCitiesState.value = MyCitiesState.Error(exceptionStringRepository.exceptionMessage(errorMessage))
-                }
-            )
-        }
-    }
-
-    private fun <T> handleResponse(
-        response: Response<T>,
-        onSuccess: (T) -> Unit,
-        onError: (String) -> Unit
-    ) {
-        when (response) {
-            is Response.Success -> {
-                response.data?.let { data ->
-                    onSuccess(data)
-                } ?: onError(Constants.DATA_NOT_FOUND)
-            }
-            is Response.Error -> {
-                onError(response.message ?: Constants.UNKNOWN_ERROR)
-            }
-        }
-    }
-
-
-    private fun checkSearchFieldValue(): Boolean {
-        return searchFieldValue.isNotEmpty()
-    }
-
-    fun updateSearchField(input: String) {
-        searchFieldValue = input
-    }
-
-    private fun isMyCitiesExist(): Boolean {
-        return getMyCityUseCase.getMyCity().isNotEmpty()
-    }
-}*/

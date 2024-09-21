@@ -1,5 +1,6 @@
 package com.ponyu.weather.feature.favorites
 
+import android.widget.Space
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -7,6 +8,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -54,13 +57,15 @@ internal fun FavoritesScreen(
             onSearchCityClick = favoritesViewModel::searchCityClick
         )
 
+        Spacer(modifier = Modifier.size(8.dp))
+
         if (favoritesViewModel.isCitySearched) {
             when (searchCityState) {
                 is SearchCityState.Loading -> LoadingIndicator()
-                is SearchCityState.Success -> (searchCityState as SearchCityState.Success).forecast?.let {
-                    WantedCityWeatherSection(it, favoritesViewModel)
-                }
-
+                is SearchCityState.Success ->
+                    (searchCityState as SearchCityState.Success).forecast?.let {
+                        WantedCityWeatherSection(it, favoritesViewModel)
+                    }
                 is SearchCityState.Error -> ErrorDisplay((searchCityState as SearchCityState.Error).errorMessage.desc) {
                     favoritesViewModel.errorOnClick()
                 }
@@ -178,7 +183,8 @@ private fun MyCities(
 ) {
     Column(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .padding(top = 16.dp),
         horizontalAlignment = Alignment.Start
     ) {
         when (myCitiesState) {
@@ -209,8 +215,8 @@ private fun CityListSection(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.Red),
-        contentPadding = PaddingValues(vertical = 16.dp)
+            .padding(),
+        contentPadding = PaddingValues(vertical = 8.dp)
     ) {
         items(cityList) { city ->
             CityWeatherCard(
