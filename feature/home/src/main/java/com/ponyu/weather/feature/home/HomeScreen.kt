@@ -20,7 +20,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -36,6 +35,7 @@ import com.ponyu.wather.domain.model.Forecast
 import com.ponyu.wather.designsystem.component.ErrorCard
 import com.ponyu.wather.designsystem.component.WeatherComponent
 import com.ponyu.wather.designsystem.component.WeatherType
+import com.ponyu.wather.domain.interfaces.ForecastState
 
 @Composable
 internal fun HomeScreen(
@@ -53,41 +53,48 @@ internal fun HomeScreen(
 
 @Composable
 private fun WeatherSection(
-    currentWeatherState: HomeForecastState,
+    currentWeatherState: ForecastState,
     dialogErrorRetry: () -> Unit,
 ) {
-    when (currentWeatherState) {
-        is HomeForecastState.Loading -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(LocalConfiguration.current.screenWidthDp.dp / 3),
-                    color = MaterialTheme.colorScheme.secondaryContainer,
-                    strokeWidth = 5.dp
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = MaterialTheme.colorScheme.primaryContainer)
+    ) {
+        when (currentWeatherState) {
+            is ForecastState.Loading -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(LocalConfiguration.current.screenWidthDp.dp / 3),
+                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        strokeWidth = 5.dp
+                    )
+                }
+            }
+
+            is ForecastState.Success -> {
+                if (currentWeatherState.forecast != null)
+                    WeatherDataToday(todayWeather = currentWeatherState.forecast!!)
+            }
+
+            is ForecastState.Error -> {
+                ErrorCard(
+                    modifier = Modifier.fillMaxSize(),
+                    errorTitle = currentWeatherState.errorMessage.title,
+                    errorDescription = currentWeatherState.errorMessage.desc,
+                    errorButtonText = currentWeatherState.errorMessage.btnText,
+                    onClick = {
+                        dialogErrorRetry.invoke()
+                    },
+                    cardModifier = Modifier
+                        .fillMaxWidth()
+                        .height(LocalConfiguration.current.screenHeightDp.dp / 4 + 48.dp)
+                        .padding(horizontal = 64.dp),
                 )
             }
-        }
-        is HomeForecastState.Success -> {
-            if (currentWeatherState.forecast != null) {
-                WeatherDataToday(todayWeather = currentWeatherState.forecast)
-            }
-        }
-        is HomeForecastState.Error -> {
-            ErrorCard(
-                modifier = Modifier.fillMaxSize(),
-                errorTitle = currentWeatherState.errorMessage.title,
-                errorDescription = currentWeatherState.errorMessage.desc,
-                errorButtonText =  currentWeatherState.errorMessage.btnText,
-                onClick = {
-                    dialogErrorRetry.invoke()
-                },
-                cardModifier = Modifier
-                    .fillMaxWidth()
-                    .height(LocalConfiguration.current.screenHeightDp.dp / 4 + 48.dp)
-                    .padding(horizontal = 64.dp),
-            )
         }
     }
 }
@@ -100,7 +107,6 @@ private fun WeatherDataToday(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.primaryContainer)
             .padding(10.dp),
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally

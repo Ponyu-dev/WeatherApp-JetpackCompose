@@ -8,6 +8,7 @@ import com.ponyu.wather.domain.model.Forecast
 import com.ponyu.wather.domain.use_cases.forecast.*
 import com.ponyu.wather.domain.use_cases.location.GetLocationUseCase
 import com.ponyu.wather.domain.exctenstions.ExceptionStringRepository
+import com.ponyu.wather.domain.interfaces.ForecastState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +29,7 @@ class HomeViewModel @Inject constructor(
     private val exceptionStringRepository: ExceptionStringRepository
 ) : ViewModel() {
 
-    private val _homeForecastState = MutableStateFlow<HomeForecastState>(HomeForecastState.Loading)
+    private val _homeForecastState = MutableStateFlow<ForecastState>(ForecastState.Loading)
     val homeForecastState = _homeForecastState.asStateFlow()
 
     init {
@@ -36,7 +37,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun loadLocation() {
-        _homeForecastState.value = HomeForecastState.Loading
+        _homeForecastState.value = ForecastState.Loading
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val locationData = getCurrentLocation.getLocation()
@@ -55,12 +56,12 @@ class HomeViewModel @Inject constructor(
         when (val result = getForecast.getForecast(latitude, longitude)) {
             is Response.Success -> {
                 result.data?.let { forecast ->
-                    _homeForecastState.value = HomeForecastState.Success(forecast)
+                    _homeForecastState.value = ForecastState.Success(forecast)
                     cacheOrUpdateForecast(forecast)
                 }
             }
             is Response.Error -> {
-                _homeForecastState.value = HomeForecastState.Error(exceptionStringRepository.exceptionMessage(result.message))
+                _homeForecastState.value = ForecastState.Error(exceptionStringRepository.exceptionMessage(result.message))
             }
         }
     }
@@ -87,7 +88,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getCachedForecast() {
-        _homeForecastState.value = HomeForecastState.Success(getForecastDb.getForecastFromDbUseCase()!!)
+        _homeForecastState.value = ForecastState.Success(getForecastDb.getForecastFromDbUseCase()!!)
     }
 
     private fun isForecastCached(): Boolean {
@@ -98,7 +99,7 @@ class HomeViewModel @Inject constructor(
         if (isForecastCached()) {
             getCachedForecast()
         } else {
-            _homeForecastState.value = HomeForecastState.Error(exceptionStringRepository.exceptionMessage(errorMessage))
+            _homeForecastState.value = ForecastState.Error(exceptionStringRepository.exceptionMessage(errorMessage))
         }
     }
 }

@@ -25,4 +25,6 @@
     <string name="subtitle2">Search Result</string>
     <string name="no_city">You don\'t have any city</string>
     <string name="error_title">OOPS!!!</string>
+    <string name="forecast_report">Forecast Report</string>
+    <string name="next_forecast">Next forecast</string>
 </resources>

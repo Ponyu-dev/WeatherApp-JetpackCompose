@@ -7,7 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ponyu.wather.core.Constants
-import com.ponyu.wather.core.HourConverter
+import com.ponyu.wather.core.Converter
 import com.ponyu.wather.core.Response
 import com.ponyu.wather.designsystem.component.WeatherType
 import com.ponyu.wather.domain.model.MyCity
@@ -142,7 +142,7 @@ class FavoritesViewModel @Inject constructor(
                                         weatherImage = WeatherType.getWeatherType(
                                             mainDescription = it.weatherList[0].weatherStatus[0].mainDescription,
                                             weatherDescription = it.weatherList[0].weatherStatus[0].description,
-                                            HourConverter.convertHour(
+                                            Converter.convertHour(
                                                 it.weatherList[0].date.substring(11, 13)
                                             ),
                                         )

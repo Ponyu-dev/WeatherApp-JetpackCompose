@@ -1,6 +1,5 @@
 package com.ponyu.weather.feature.favorites
 
-import android.widget.Space
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -8,8 +7,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DividerDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -20,15 +17,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalGraphicsContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ponyu.wather.core.HourConverter
+import com.ponyu.wather.core.Converter
 import com.ponyu.wather.designsystem.component.CityWeatherCard
 import com.ponyu.wather.designsystem.component.ErrorCard
 import com.ponyu.wather.designsystem.component.WeatherType
@@ -153,7 +148,7 @@ private fun WantedCityWeatherSection(
             weatherImage = WeatherType.getWeatherType(
                 forecast.weatherList[0].weatherStatus[0].mainDescription,
                 forecast.weatherList[0].weatherStatus[0].description,
-                HourConverter.convertHour(forecast.weatherList[0].date.substring(11, 13)),
+                Converter.convertHour(forecast.weatherList[0].date.substring(11, 13)),
             ),
             isItDb = false,
             onClick = {
@@ -168,7 +163,7 @@ private fun WantedCityWeatherSection(
                         weatherImage = WeatherType.getWeatherType(
                             forecast.weatherList[0].weatherStatus[0].mainDescription,
                             forecast.weatherList[0].weatherStatus[0].description,
-                            HourConverter.convertHour(forecast.weatherList[0].date.substring(11, 13)),
+                            Converter.convertHour(forecast.weatherList[0].date.substring(11, 13)),
                     )
                 ))
             }
