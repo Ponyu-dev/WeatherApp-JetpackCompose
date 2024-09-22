@@ -2,7 +2,7 @@
 
 🚧 WORK IN PROGRESS 🚧
 
-The project is a mobile application 'WeatherApp', developed in Kotlin using modern Android technologies. The main purpose of the application is to provide users with up-to-date weather information based on data from the OpenWeather API. The application supports features such as displaying current weather, multi-day forecasts, and automatically fetching data based on the user's location. It also includes functionalities for saving favorite cities, animated transitions between screens, local data storage using Room, and dependency management through Hilt.
+The project is a mobile application 'WeatherApp', developed in Kotlin using modern Android technologies. The main purpose of the application is to provide users with up-to-date weather information based on data from the [OpenWeather API](https://openweathermap.org/api/one-call-3). The application supports features such as displaying current weather, multi-day forecasts, and automatically fetching data based on the user's location. It also includes functionalities for saving favorite cities, animated transitions between screens, local data storage using Room, and dependency management through Hilt.
 
 
 ## Tech Stack
