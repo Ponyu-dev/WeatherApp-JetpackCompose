@@ -1,5 +1,6 @@
 import java.io.FileInputStream
 import java.util.Properties
+import com.github.triplet.gradle.androidpublisher.ReleaseStatus
 
 plugins {
     alias(libs.plugins.android.application)
@@ -7,6 +8,8 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
     id("kotlin-kapt")
+
+    alias(libs.plugins.playPublisher)
 }
 
 // Загрузка keystore.properties
@@ -26,7 +29,7 @@ android {
         applicationId = "com.ponyu.weather.application"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
+        versionCode = 2
         versionName = "0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -51,6 +54,16 @@ android {
             )
         }
     }
+
+    play {
+        // Overrides defaults
+        serviceAccountCredentials.set(rootProject.file("service-account.json"))
+        track.set("internal") // internal, alpha, beta, production
+        releaseName.set("Test internal OTUS")
+        //userFraction.set(1.0) // do not use for internal
+        releaseStatus.set(ReleaseStatus.DRAFT) // For internal only use DRAFT
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8

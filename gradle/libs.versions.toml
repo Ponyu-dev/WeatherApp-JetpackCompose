@@ -21,7 +21,7 @@ navigation = "2.8.0"
 gms-play-services-location = "21.3.0"
 moduleGraph = "2.5.0"
 
-gradlePlayPublisher = "3.7.0"
+gradlePlayPublisher = "3.10.1"
 
 [libraries]
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
