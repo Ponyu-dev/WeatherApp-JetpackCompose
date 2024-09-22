@@ -21,6 +21,8 @@ navigation = "2.8.0"
 gms-play-services-location = "21.3.0"
 moduleGraph = "2.5.0"
 
+gradlePlayPublisher = "3.10.1"
+
 [libraries]
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
 coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
@@ -66,6 +68,8 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
+playPublisher = { module = "com.github.triplet.play:gradle-play-publisher", version.ref = "gradlePlayPublisher" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
@@ -73,3 +77,5 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 android-library = { id = "com.android.library", version.ref = "agp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 module-graph = { id = "com.jraska.module.graph.assertion", version.ref = "moduleGraph" }
+
+playPublisher = { id = "com.github.triplet.play", version.ref = "gradlePlayPublisher" }

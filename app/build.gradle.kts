@@ -1,9 +1,24 @@
+import java.io.FileInputStream
+import java.util.Properties
+import com.github.triplet.gradle.androidpublisher.ReleaseStatus
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
     id("kotlin-kapt")
+
+    alias(libs.plugins.playPublisher)
+}
+
+// Загрузка keystore.properties
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+} else {
+    throw GradleException("Файл keystore.properties не найден!")
 }
 
 android {
@@ -14,14 +29,24 @@ android {
         applicationId = "com.ponyu.weather.application"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
+        versionCode = 2
         versionName = "0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = rootProject.file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -29,6 +54,16 @@ android {
             )
         }
     }
+
+    play {
+        // Overrides defaults
+        serviceAccountCredentials.set(rootProject.file("service-account.json"))
+        track.set("internal") // internal, alpha, beta, production
+        releaseName.set("Test internal OTUS")
+        //userFraction.set(1.0) // do not use for internal
+        releaseStatus.set(ReleaseStatus.DRAFT) // For internal only use DRAFT
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
