@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.scope.ProjectInfo.Companion.getBaseName
 import java.io.FileInputStream
 import java.util.Properties
 import com.github.triplet.gradle.androidpublisher.ReleaseStatus
@@ -21,6 +22,33 @@ if (keystorePropertiesFile.exists()) {
     throw GradleException("Файл keystore.properties не найден!")
 }
 
+// Создание расширения для Play Publisher
+open class PlayPublishConfig {
+    lateinit var serviceAccountCredentials: File
+    lateinit var track: String
+    lateinit var releaseName: String
+    lateinit var releaseStatus: ReleaseStatus
+}
+
+val playPublishConfig = extensions.create<PlayPublishConfig>("playPublishConfig")
+
+// Настройка расширения
+playPublishConfig.apply {
+    serviceAccountCredentials = rootProject.file("service-account.json")
+    track = System.getenv("PLAY_TRACK") ?: "internal" // internal, alpha, beta, production
+    releaseName = System.getenv("PLAY_RELEASE_NAME") ?: "Default Release Name"
+
+    // Обработка значения releaseStatus
+    val status = System.getenv("PLAY_RELEASE_STATUS") ?: "DRAFT" // For internal only use DRAFT
+    releaseStatus = when (status.uppercase()) {
+        "DRAFT" -> ReleaseStatus.DRAFT
+        "IN_PROGRESS" -> ReleaseStatus.IN_PROGRESS
+        "COMPLETED" -> ReleaseStatus.COMPLETED
+        else -> ReleaseStatus.DRAFT // По умолчанию
+    }
+    //userFraction.set(1.0) // do not use for internal
+}
+
 android {
     namespace = "com.ponyu.weather.application"
     compileSdk = 34
@@ -29,7 +57,7 @@ android {
         applicationId = "com.ponyu.weather.application"
         minSdk = 24
         targetSdk = 34
-        versionCode = 2
+        versionCode = 3
         versionName = "0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -57,11 +85,10 @@ android {
 
     play {
         // Overrides defaults
-        serviceAccountCredentials.set(rootProject.file("service-account.json"))
-        track.set("internal") // internal, alpha, beta, production
-        releaseName.set("Test internal OTUS")
-        //userFraction.set(1.0) // do not use for internal
-        releaseStatus.set(ReleaseStatus.DRAFT) // For internal only use DRAFT
+        serviceAccountCredentials.set(playPublishConfig.serviceAccountCredentials)
+        track.set(playPublishConfig.track)
+        releaseName.set(playPublishConfig.releaseName)
+        releaseStatus.set(playPublishConfig.releaseStatus)
     }
 
     compileOptions {
