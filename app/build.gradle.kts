@@ -1,4 +1,3 @@
-import com.android.build.gradle.internal.scope.ProjectInfo.Companion.getBaseName
 import java.io.FileInputStream
 import java.util.Properties
 import com.github.triplet.gradle.androidpublisher.ReleaseStatus
