@@ -13,12 +13,35 @@ plugins {
 }
 
 // Загрузка keystore.properties
-val keystorePropertiesFile = rootProject.file("keystore.properties")
+/*val keystorePropertiesFile = rootProject.file("keystore.properties")
 val keystoreProperties = Properties()
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 } else {
     throw GradleException("Файл keystore.properties не найден!")
+}*/
+val keystoreProperties = Properties()
+
+// Проверка наличия переменных окружения (для сборки на Jenkins)
+val storeFileEnv = System.getenv("STORE_FILE")
+val storePasswordEnv = System.getenv("STORE_PASSWORD")
+val keyAliasEnv = System.getenv("KEY_ALIAS")
+val keyPasswordEnv = System.getenv("KEY_PASSWORD")
+
+if (storeFileEnv != null && storePasswordEnv != null && keyAliasEnv != null && keyPasswordEnv != null) {
+    // Если переменные окружения заданы, используем их
+    keystoreProperties["keyAlias"] = keyAliasEnv
+    keystoreProperties["keyPassword"] = keyPasswordEnv
+    keystoreProperties["storeFile"] = storeFileEnv
+    keystoreProperties["storePassword"] = storePasswordEnv
+} else {
+    // Локальная сборка - чтение данных из keystore.properties
+    val keystorePropertiesFile = rootProject.file("keystore.properties")
+    if (keystorePropertiesFile.exists()) {
+        keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+    } else {
+        throw GradleException("Файл keystore.properties не найден!")
+    }
 }
 
 // Создание расширения для Play Publisher

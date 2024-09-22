@@ -1,0 +1,10 @@
+cd ci-cd
+
+docker login
+
+docker build -t ponyu/weather-otus-image:1.0.0 .
+
+docker push ponyu/weather-otus-image:1.0.0
+
+git add Dockerfile
+git commit -m "Add Dockerfile for CI/CD infrastructure"
